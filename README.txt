@@ -73,3 +73,39 @@ wget "https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtml
 sudo dpkg -i wkhtmltox_0.12.5-1.focal_amd64.deb
 (Optional if dpkg failed)
 apt-get install -f
+
+
+
+sudo -i
+cd /usr/local/src
+wget http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz
+tar xzf noip-duc-linux.tar.gz
+cd noip-2.1.9-1
+(Optional if make is not found)
+apt-get install make
+apt-get install build-essential
+make
+make install
+noip2 -S
+/usr/local/bin/noip2
+noip2 -S
+
+sudo nano /etc/systemd/system/noip2.service
+----------------------------------------------------------------
+[Unit]
+Description=noip2 service
+
+[Service]
+Type=forking
+ExecStart=/usr/local/bin/noip2
+Restart=always
+
+[Install]
+WantedBy=default.target
+-----------------------------------------------------------------
+sudo chmod 755 /etc/systemd/system/noip2.service
+sudo chown root: /etc/systemd/system/noip2.service
+sudo systemctl start noip2.service
+sudo systemctl status noip2.service
+sudo systemctl stop noip2.service
+sudo systemctl enable noip2.service
